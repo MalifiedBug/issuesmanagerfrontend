@@ -127,10 +127,10 @@ export default function SignIn() {
 
             <div className="text-sm">
               <Link
-                to="/sendemail"
+                to="/signup"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                Forgot Passoword? Reset Here!
+                New Here! Sign Up!
               </Link>
             </div>
 

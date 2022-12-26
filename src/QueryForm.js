@@ -72,8 +72,8 @@ const user = window.localStorage.getItem('user')
       console.log(submit)
   }
   return (
-    <div>
-      <h1 className="text-3xl">Submit Issue!</h1>
+    <div className="flex flex-col h-full">
+      <h1 className="text-3xl m-2">Submit Issue!</h1>
       <Formik
         initialValues={{
           name: user,         
@@ -107,7 +107,7 @@ const user = window.localStorage.getItem('user')
           handleSubmit(values).then(resetForm())
         }}
       >
-        <Form className="flex flex-col m-2 gap-2 border-4 border-black rounded-lg p-2">
+        <Form className="flex flex-col m-2 gap-2 border-4 border-black rounded-lg p-2 bg-slate-200 self-center lg:w-1/4">  
           <MyTextInput
             className="border-2 rounded-lg p-1"
             label="Name"

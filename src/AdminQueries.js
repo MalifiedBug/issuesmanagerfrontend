@@ -89,7 +89,7 @@ export default function AdminQueries() {
 
   return (
     <TableContainer component={Paper} className="px-2">
-      <h1 className="text-2xl">Admin - {adminName}</h1>
+      <h1 className="text-2xl font-serif text-left p-4">Admin - {adminName}</h1>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>

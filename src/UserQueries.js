@@ -167,9 +167,10 @@ export default function UserQueries() {
   return (
     <>
       {admin === "true" ? (
-        <div>
+        <div className="text-2xl m-2 text-stone-800 font-serif">
           <label for="users">Select User: </label>
-          <select
+          <select 
+          className="p-2 rounded-lg"
             onChange={(e) => {
               setUser(e.target.value);
             }}
@@ -182,7 +183,7 @@ export default function UserQueries() {
         </div>
       ) : null}
       <TableContainer component={Paper} className="px-2">
-        <h1 className="text-2xl">User-{name}</h1>
+        <h1 className="text-2xl font-serif text-left p-4">User-{name}</h1>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>

@@ -19,7 +19,7 @@ function App() {
   const [user, setUser] = useState(window.localStorage.getItem("name"));
 
   return (
-    <div className="App">
+    <div className="App w-full h-screen">
       <MainContext.Provider
         value={{ admin, setAdmin, login, setLogin, user, setUser }}
       >
