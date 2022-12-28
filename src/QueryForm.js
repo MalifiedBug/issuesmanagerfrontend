@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { serverUrl } from "./App";
+import { useEffect } from "react";
 
 
 const MyTextInput = ({ label, ...props }) => {
@@ -56,11 +57,12 @@ const MySelect = ({ label, ...props }) => {
   );
 };
 
-// And now we can use these
 export default function QueryForm() {
 
-const user = window.localStorage.getItem('user')
-
+const [user,setUser] = useState(window.localStorage.getItem('user'))
+const admin = window.localStorage.getItem('admin') === "true";
+const [uniqueUsers,setUniqueUsers] = useState([])
+ 
   async function handleSubmit(values) {
     const submit = await axios
       .post(
@@ -71,12 +73,39 @@ const user = window.localStorage.getItem('user')
       .then((response) => alert("Issue submitted successfully")).catch((error)=>{alert(error)});
       console.log(submit)
   }
+
+  function Usero(){
+    if(admin){
+      return(
+        <div>
+          <label className="font-semibold" for="users">Submit Query on behalf of:</label>
+          <select value={user} className="rounded-lg p-1 m-1" id="users" onChange={(e)=>{setUser(e.target.value)}}>
+            {
+              uniqueUsers.map((user)=>
+              <option value={user}>{user}</option>)
+            }
+          </select>
+        </div>
+      )
+    }else{
+      return null
+    }
+  }
+
+  useEffect(()=>{
+    (async ()=>{
+      const users = await axios.get(`${serverUrl}/uniqueusers`).then((response)=>{setUniqueUsers(response.data.users);console.log(response.data)})
+      console.log(users) 
+    })()
+  },[])
+ 
   return (
     <div className="flex flex-col h-full">
       <h1 className="text-3xl m-2">Submit Issue!</h1>
+      <Usero />
       <Formik
         initialValues={{
-          name: user,         
+          name:user,          
 
           issueType: "", // added for our select
 
@@ -89,7 +118,7 @@ const user = window.localStorage.getItem('user')
           issueType: Yup.string()
 
             .oneOf(
-              ["maintainance", "hygeine", "electrical", "other"],
+              ["Maintainance", "Hygeine", "Electrical", "Other"],
 
               "Invalid Job Type"
             )
@@ -114,21 +143,20 @@ const user = window.localStorage.getItem('user')
             name="name"
             type="text"
             value={user}
-            readonly
           />
         
           <hr className="border-2 border-black m-4" />
 
-          <MySelect label="Issue Type: " name="issueType">
+          <MySelect className="rounded-lg p-1 m-1" label="Issue Type: " name="issueType">
             <option value="">Select a job type</option>
 
-            <option value="maintainance">Maintainance</option>
+            <option value="Maintainance">Maintainance</option>
 
-            <option value="hygeine">Hygeine</option>
+            <option value="Hygeine">Hygeine</option>
 
-            <option value="electrical">Electrical</option>
+            <option value="Electrical">Electrical</option>
 
-            <option value="other">Other</option>
+            <option value="Other">Other</option>
           </MySelect>
 
           <MyTextInput

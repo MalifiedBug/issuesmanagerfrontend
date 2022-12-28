@@ -9,8 +9,10 @@ import SignUp from "./SignUp";
 import Home from "./Home";
 import { createContext } from "react";
 import { useState } from "react";
+import AdminPermissions from "./AdminPermissions";
 
-export const serverUrl = "https://issuesbackend.vercel.app";
+export const serverUrl = "http://localhost:4000";
+// https://issuesbackend.vercel.app
 export const MainContext = createContext();
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
       <MainContext.Provider
         value={{ admin, setAdmin, login, setLogin, user, setUser }}
       >
+        {/* navbar */}
         <ButtonAppBar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -31,6 +34,9 @@ function App() {
               <Route path="/queryform" element={<QueryForm />} />
               {admin === "true" ? (
                 <Route path="/admin" element={<AdminQueries />} />
+              ) : null}
+              {admin === "true" ? (
+                <Route path="/permissions" element={<AdminPermissions />} />
               ) : null}
               <Route path="/user" element={<UserQueries />} />
             </>

@@ -99,6 +99,7 @@ export default function UserQueries() {
   const [data, setData] = useState([]);
   const [updateResponse, setUpdateResponse] = useState([]);
   const [user, setUser] = useState("");
+  const [uniqueUsers,setUniqueUsers] = useState([])
 
   var name = user;
 
@@ -137,23 +138,28 @@ export default function UserQueries() {
         })
         .catch((error) => console.log(error));
       console.log(data);
+
+      const users = await axios.get(`${serverUrl}/uniqueusers`).then((response)=>{setUniqueUsers(response.data.users);console.log(response.data)})
+      console.log(users)
     })();
   }, [updateResponse, name]);
 
   function createData(
     id,
+    name,
     issueType,
     issueTitle,
     issueDescription,
     status,
     date
   ) {
-    return { id, issueType, issueTitle, issueDescription, status, date };
+    return { id,name, issueType, issueTitle, issueDescription, status, date };
   }
 
   const rows = data.map((ele) =>
     createData(
       ele._id,
+      ele.name,
       ele.issueType,
       ele.issueTitle,
       ele.issueDescription,
@@ -162,7 +168,7 @@ export default function UserQueries() {
     )
   );
 
-  const users = ["Tharun", "Varun"];
+  const users = uniqueUsers; 
 
   return (
     <>
@@ -177,7 +183,7 @@ export default function UserQueries() {
             id="users"
           >
             {users.map((u) => (
-              <option value={u}>{u}</option>
+              <option value={u} selected={u===name?true:false}>{u}</option>
             ))}
           </select>
         </div>
@@ -187,7 +193,9 @@ export default function UserQueries() {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Id</StyledTableCell>
+            <StyledTableCell>#</StyledTableCell>
+              <StyledTableCell>Ticket-Id</StyledTableCell>
+              <StyledTableCell align="left">Name</StyledTableCell>
               <StyledTableCell align="left">Type</StyledTableCell>
               <StyledTableCell align="left">Title</StyledTableCell>
               <StyledTableCell align="left">Description</StyledTableCell>
@@ -197,8 +205,9 @@ export default function UserQueries() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows.map((row, index) => (
               <StyledTableRow key={row.id}>
+                <StyledTableCell align="left">{index+1}</StyledTableCell>
                 <StyledTableCell
                   className="break-all"
                   component="th"
@@ -206,12 +215,13 @@ export default function UserQueries() {
                 >
                   {row.id}
                 </StyledTableCell>
+                <StyledTableCell align="left">{row.name}</StyledTableCell>
                 <StyledTableCell align="left">{row.issueType}</StyledTableCell>
                 <StyledTableCell align="left">{row.issueTitle}</StyledTableCell>
                 <StyledTableCell align="left" className="break-all">
                   {row.issueDescription}
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.status}</StyledTableCell>
+                <StyledTableCell align="left">{row.status==="pending"?<h1 className="text-orange-400">Pending</h1>:<h1 className="text-green-400">Resolved</h1>}</StyledTableCell>
                 <StyledTableCell align="left">{row.date}</StyledTableCell>
                 <StyledTableCell align="left" className="flex flex-row">
                   {row.status !== "resolved" ? (
@@ -269,13 +279,12 @@ export default function UserQueries() {
                           type="text"
                           placeholder="Description"
                         />
-                        <button type="submit">Submit</button>
+                        <button className="border rounded-lg hover:bg-gray-300" type="submit">Submit</button>
                       </Form>
                     </Formik>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleEditClose}>Cancel</Button>
-                    <Button onClick={handleEditClose}>Subscribe</Button>
                   </DialogActions>
                 </Dialog>
               </StyledTableRow>

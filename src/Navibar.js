@@ -6,6 +6,8 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { MainContext } from "./App";
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import { IconButton } from "@mui/material";
 
 export default function ButtonAppBar() {
   const navigate = useNavigate();
@@ -18,6 +20,9 @@ export default function ButtonAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar className="flex flex-row justify-between">
+          <IconButton color="inherit" onClick={()=>navigate("/")}>
+            <AccountTreeIcon /> &nbsp; HelpDesk
+          </IconButton>
           {login === "true" ? (
             <div>
               <Button
@@ -38,13 +43,23 @@ export default function ButtonAppBar() {
                   Admin
                 </Button>
               ) : null}
+              {admin === "true" ? (
+                <Button
+                  onClick={() => {
+                    navigate("/permissions");
+                  }}
+                  color="inherit"
+                >
+                  Permissions
+                </Button>
+              ) : null}
               <Button
                 onClick={() => {
                   navigate("/user");
                 }}
                 color="inherit"
               >
-                User
+                Queries
               </Button>
             </div>
           ) : null}
