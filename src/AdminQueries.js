@@ -15,6 +15,10 @@ import { useEffect, useState } from "react";
 import { serverUrl } from "./App";
 import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
+import CircularProgress from '@mui/material/CircularProgress';
+
+
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,31 +41,42 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function AdminQueries() {
-  const [data, setData] = useState([]);
+  const [data,setData] = useState([]);
+
+  const [newData, setNewData] = useState([])
 
   const [updateAdminResponse, setUpdateAdminResponse] = useState("");
 
   const [deleteQResponse,setDeleteQResponse] = useState("")
 
   const [uniqueUsers, setUniqueUsers] = useState([]) 
+
   console.log(uniqueUsers) 
 
   const adminName = window.localStorage.getItem("user");
 
   useEffect(() => {
     (async () => {
-      const data = await axios
+      await axios
         .get(`${serverUrl}/allissues`)
         .then((response) => {
           setData(response.data);
+          setNewData(response.data);
           console.log(response.data)
-          var names = Array(new Set(response.data.map(({name})=>name)))
-          setUniqueUsers(names[0])
         })
         .catch((error) => console.log(error));
-      console.log(data);
     })();
   }, [updateAdminResponse, deleteQResponse]);
+
+
+  
+  useEffect(()=>{
+    (async ()=>{
+      const users = await axios.get(`${serverUrl}/uniqueusers`).then((response)=>{setUniqueUsers(response.data.users);console.log(response.data)})
+      console.log(users) 
+    })()
+  },[])
+
 
   function createData(
     id,
@@ -75,7 +90,7 @@ export default function AdminQueries() {
     return { id,name, issueType, issueTitle, issueDescription, status, date };
   }
 
-  const rows = data.map((ele) =>
+  const rows = newData.map((ele) =>
     createData(
       ele._id,
       ele.name,
@@ -103,10 +118,60 @@ export default function AdminQueries() {
     console.log(queriesDelete)
   }
 
+ 
+  console.log(data)
+
+  const [filterName, setFilterName] = useState("")
+
+
   return (
-    <TableContainer component={Paper} className="px-2">
+    <div>    
+      {data!==[]?
+      <TableContainer component={Paper} className="px-2">
       <div className="flex flex-row justify-between">
         <h1 className="text-2xl font-serif text-left p-4">Admin - {adminName}</h1>
+    
+    
+        <select onChange={(e)=>{
+          if(e.target.value !=="all"){
+            setFilterName(e.target.value);setNewData(data.filter((dat)=>dat.name === e.target.value))
+          }
+          else{
+            setNewData(data)
+          }
+          }}
+          className="rounded-lg p-2 h-11 self-center">
+        <option value="all" selected>All</option>
+          {uniqueUsers.map((user,index)=>
+          <option key={index} value={user}>{user}</option>)}
+        </select>
+        <select onChange={(e)=>{
+          if(e.target.value === "pending"){
+            let newDat = data.filter((dat)=>dat.name===filterName && dat.status === 'pending');
+            setNewData(newDat);
+            console.log(newDat)
+          }else if(e.target.value === "resolved"){
+            let newDat = data.filter((dat)=>dat.name===filterName && dat.status === 'resolved');
+            setNewData(newDat)
+            console.log(newDat)
+          }else if(e.target.value === "all"){
+            let newDat = data.filter((dat)=>dat.name===filterName);
+            setNewData(newDat)
+          }
+        }} className="rounded-lg p-2 h-11 self-center">
+          <option value="all">All</option>
+          <option value="pending">Pending</option>
+          <option value="resolved">Resolved</option>
+        </select>
+        <select className="rounded-lg p-2 h-11 self-center">
+          <option value="asc">Date Asc</option>
+          <option value="desc">Date Desc</option>
+        </select>
+        <div className="rounded-lg p-2 h-11 self-center">
+        <label for="birthday">Date:</label>
+         <input type="date" id="birthday" name="birthday"></input>
+        </div>
+        <button onClick={()=>setNewData(data)} className="bg-gray-300 rounded-lg p-2 h-11 self-center">reset</button>
         <h1 className="self-center text-md">Delete Resolved Queries <IconButton onClick={()=>{deleteQueries()}} color="error"><DeleteIcon /></IconButton></h1>
       </div>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -159,6 +224,7 @@ export default function AdminQueries() {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer>:<CircularProgress color="inherit" />}      
+    </div>
   );
 }

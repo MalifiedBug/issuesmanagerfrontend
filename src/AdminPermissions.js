@@ -7,29 +7,40 @@ import { serverUrl } from "./App"
 export default function AdminPermissions(){
     const [uniqueUsers,setUniqueUsers] = useState([])
     const [allAdmins,setAllAdmins] = useState([])
-    // const [delAdmin,setDelAdmin] = useState("")
-    // const [addAdmin,setAddAdmin] = useState("")
+    const [delAdmin,setDelAdmin] = useState("")
+    const [addAdmin,setAddAdmin] = useState("")
+
+    console.log(delAdmin,addAdmin)
+
 
     useEffect(()=>{
         (async ()=>{
-          await axios.get(`${serverUrl}/uniqueusers`).then((response)=>{setUniqueUsers(response.data.usersnoadmin);setAllAdmins(response.data.allAdmins);console.log(response.data.usersnoadmin)})           
+          await axios.get(`${serverUrl}/uniqueusers`).then((response)=>{setUniqueUsers(response.data.usersnoadmin);setAllAdmins(response.data.allAdmins);console.log(response.data.usersAdmin)})         
           
         })()
-      },[])
+      },[addAdmin,delAdmin])
+
+     async function One(name){
+        await axios.put(`${serverUrl}/addadmin/${name}`).then(response=>alert(response))
+      }
+
+      async function Two(name){
+        await axios.put(`${serverUrl}/deladmin/${name}`).then(response=>alert(response))
+      }
 
     return(
-        <div>
-            <div>
+        <div className="w-3/4 flex flex-col">
+            <div className="self-center m-2">
                 <label for="assign">Assign admin permission to:</label>
-                <select id="assign">
+                <select onChange={(e)=>{setAddAdmin(e.target.value);One(e.target.value)}} id="assign" className="p-1 rounded-lg">
                     {uniqueUsers.map((user, index)=>
                     <option key={index} value={user}>{user}</option>)}
                 </select>
             </div>
             <br />
-            <div>
+            <div className="m-2">
                 <label for="revoke">Revoke admin permissions of:</label>
-                <select>
+                <select onChange={(e)=>{if(allAdmins.length>1){setDelAdmin(e.target.value);Two(e.target.value)}else{alert("At Least One Admin Needed!")}}} className="p-1 rounded-lg">
                     {allAdmins.map((admin, index)=>
                     <option key={index} value={admin}>{admin}</option>)}
                 </select>

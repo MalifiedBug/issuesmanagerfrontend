@@ -12,6 +12,10 @@ import { serverUrl } from "./App";
 import axios from "axios";
 import { useContext } from "react";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 export default function SignIn() {
   const navigate = useNavigate();
   const [response, setResponse] = useState("");
@@ -21,6 +25,19 @@ export default function SignIn() {
   const { admin, setAdmin, login, setLogin } = useContext(MainContext);
 
   console.log(token, login, admin, name);
+ 
+  const loggedin = () =>
+  toast.success("Logged In!", {
+    position: "bottom-left",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover:false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+
 
   return (
     <div className="flex h-auto items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -65,6 +82,7 @@ export default function SignIn() {
                   setAdmin(response.data.admin);
                   resetForm();
                   if (response.data.msg === "logged in") {
+                    loggedin();
                     window.localStorage.setItem("token", response.data.token);
                     window.localStorage.setItem("user", response.data.name);
                     window.localStorage.setItem("admin", response.data.admin);
@@ -145,6 +163,18 @@ export default function SignIn() {
             </div>
           </Form>
         </Formik>
+        <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       </div>
     </div>
   );

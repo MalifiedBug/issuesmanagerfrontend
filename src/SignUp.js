@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
@@ -9,9 +9,34 @@ import { serverUrl } from "./App";
 import Alert from "@mui/material/Alert";
 import axios from "axios";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 export default function SignUp() {
   const [response, setResponse] = useState("");
   const navigate = useNavigate();
+
+  const signedup = () =>
+  toast.success("Signed Up!", {
+    position: "bottom-left",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover:false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+
+  useEffect(()=>{
+    if(response!==""){
+      signedup()
+    } 
+  },[response])
+  
+  
+
 
   return (
     <div className="flex h-auto items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -51,20 +76,19 @@ export default function SignUp() {
             }, 4000);
             (async () => {
               const url = `${serverUrl}/signup`;
-              const signuppost = await axios
+              await axios
                 .post(url, {
                   name,
                   email,
                   password,
                 })
-                .then((response) => {
+                .then((response) => {                  
                   setResponse(response);
                   alert(response.data.msg);
                   resetForm();
                   navigate("/signin");
                 })
                 .catch((error) => alert(error));
-              console.log(signuppost);
             })();
           }}
         >
@@ -116,14 +140,7 @@ export default function SignUp() {
                   {(msg) => <div style={{ color: "red" }}>{msg}</div>}
                 </ErrorMessage>
               </div>
-            </div>
-            <div>
-              {response === null ? (
-                <div class="flex justify-center">
-                  <div class="border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-4 m-4 h-8 w-8"></div>
-                </div>
-              ) : null}
-            </div>
+            </div>            
             {response ? (
               <div>
                 {response === "user added" ? (
@@ -153,7 +170,19 @@ export default function SignUp() {
             </div>
           </Form>
         </Formik>
-      </div>
+        <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      </div>     
     </div>
   );
 }

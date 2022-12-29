@@ -6,8 +6,10 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { MainContext } from "./App";
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import { IconButton } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ButtonAppBar() {
   const navigate = useNavigate();
@@ -16,11 +18,25 @@ export default function ButtonAppBar() {
 
   console.log(typeof admin, typeof login);
 
+  const loggedout = () =>
+    toast.success("Logged Out!", {
+      position: "bottom-left",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover:false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+   
+
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar className="flex flex-row justify-between">
-          <IconButton color="inherit" onClick={()=>navigate("/")}>
+          <IconButton color="inherit" onClick={() => navigate("/")}>
             <AccountTreeIcon /> &nbsp; HelpDesk
           </IconButton>
           {login === "true" ? (
@@ -66,7 +82,7 @@ export default function ButtonAppBar() {
           {login !== "true" ? (
             <div>
               <Button
-                onClick={() => {
+                onClick={() => {               
                   navigate("/signin");
                 }}
                 color="inherit"
@@ -74,7 +90,7 @@ export default function ButtonAppBar() {
                 SignIn
               </Button>
               <Button
-                onClick={() => {
+                onClick={() => {                 
                   navigate("/signup");
                 }}
                 color="inherit"
@@ -86,6 +102,7 @@ export default function ButtonAppBar() {
           {login === "true" ? (
             <Button
               onClick={() => {
+                loggedout();
                 window.localStorage.setItem("login", false);
                 window.localStorage.setItem("admin", false);
                 window.localStorage.setItem("token", null);
@@ -99,8 +116,21 @@ export default function ButtonAppBar() {
               Log Out
             </Button>
           ) : null}
+          {/* log out toast */}
         </Toolbar>
       </AppBar>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </Box>
   );
 }

@@ -11,7 +11,7 @@ import { createContext } from "react";
 import { useState } from "react";
 import AdminPermissions from "./AdminPermissions";
 
-export const serverUrl = "https://issuesbackend.vercel.app";
+export const serverUrl = "http://localhost:4000";
 // https://issuesbackend.vercel.app
 export const MainContext = createContext();
 
