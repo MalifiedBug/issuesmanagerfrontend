@@ -12,6 +12,7 @@ import { useState } from "react";
 import Pricing from "./Pricing";
 import Payment from "./Payment";
 import NotFound from "./NotFound";
+import Profile from "./Profile";
 
 export const serverUrl = "https://issuesbackend.vercel.app";
 // https://issuesbackend.vercel.app
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/admin" element={<AdminQueries />} />
               ) : null}              
               <Route path="/user" element={<UserQueries />} />
+              <Route path="/profile" element={<Profile />} />
             </>
           ) : null}
           {login !== "true" ? (
@@ -45,7 +47,7 @@ function App() {
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/pricing" element={<Pricing />} />
-              <Route path="/payment/:id" element={<Payment />} />
+              <Route path="/payment/:id" element={<Payment />} />              
             </>
           ) : null}
           <Route path="*" element={<NotFound />} />

@@ -69,7 +69,7 @@ export default function ButtonAppBar() {
               </Button>
               <Button
                 onClick={() => {
-                  navigate("/");
+                  navigate("/profile");
                 }}
                 color="inherit"
               >
