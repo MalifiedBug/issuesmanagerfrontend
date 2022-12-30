@@ -33,8 +33,8 @@ export default function ButtonAppBar() {
 
   
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1 }} >
+      <AppBar position="static" style={{ background: '#2E3B55' }}>
         <Toolbar className="flex flex-row justify-between">
           <IconButton color="inherit" onClick={() => navigate("/")}>
             <AccountTreeIcon /> &nbsp; HelpDesk
@@ -58,17 +58,7 @@ export default function ButtonAppBar() {
                 >
                   Admin
                 </Button>
-              ) : null}
-              {admin === "true" ? (
-                <Button
-                  onClick={() => {
-                    navigate("/permissions");
-                  }}
-                  color="inherit"
-                >
-                  Permissions
-                </Button>
-              ) : null}
+              ) : null}              
               <Button
                 onClick={() => {
                   navigate("/user");
@@ -76,6 +66,14 @@ export default function ButtonAppBar() {
                 color="inherit"
               >
                 Queries
+              </Button>
+              <Button
+                onClick={() => {
+                  navigate("/");
+                }}
+                color="inherit"
+              >
+                Profile
               </Button>
             </div>
           ) : null}

@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { serverUrl } from "./App";
+import { serverUrl } from "../App";
 
 const MyTextInput = ({ label, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -189,7 +189,7 @@ export default function UserQueries() {
   return (
     <>
       {admin === "true" ? (
-        <div className="text-2xl m-2 text-stone-800 font-serif">
+        <div className="text-2xl text-left p-2 text-stone-800 font-serif bg-slate-400">
           <label for="users">Select User: </label>
           <select 
           className="p-2 rounded-lg"
@@ -254,7 +254,7 @@ export default function UserQueries() {
                   )}
                 </StyledTableCell>
                 <Dialog open={editOpen} onClose={handleEditClose}>
-                  <DialogTitle>Edit</DialogTitle>
+                  <DialogTitle>Edit {row.issueType} Issue!</DialogTitle>
                   <DialogContent>
                     <Formik
                       initialValues={{
@@ -280,7 +280,7 @@ export default function UserQueries() {
                       }}
                     >
                       <Form className="flex flex-col m-2 gap-2 border-4 border-black rounded-lg p-2">
-                        <MySelect label="Issue Type: " name="issueType">
+                        <MySelect className="p-1 m-1 rounded-lg text-xl" label="Issue Type: " name="issueType">
                           <option value="">Select a job type</option>
                           <option value="Maintainance">Maintainance</option>
                           <option value="Hygeine">Hygeine</option>
@@ -289,7 +289,7 @@ export default function UserQueries() {
                         </MySelect>
                         <MyTextInput
                           className="border-2 rounded-lg p-1"
-                          label="Issue Title"
+                          label="Issue Title:"
                           name="issueTitle"
                           type="text"
                           placeholder="Title"
@@ -309,12 +309,12 @@ export default function UserQueries() {
                   </DialogActions>
                 </Dialog>
                 <Dialog open={deleteOpen} onClose={handleDeleteClose}>
-                  <DialogTitle>Delete</DialogTitle>
-                  <DialogContent>
-                    Are you sure? <button onClick={()=>handleDelete(row.id)} className="border border-red-500 rounded-lg p-1 hover:bg-red-500">Delete</button>
+                  <DialogTitle>Delete {row.issueType} Issue!</DialogTitle>
+                  <DialogContent  className="self-center">
+                    Are you sure? <button onClick={()=>handleDelete(row.id)} className="border bg-red-500 text-white rounded-lg p-1">Delete</button>
                   </DialogContent> 
                   <DialogActions>
-                    <Button onClick={handleEditClose}>Cancel</Button>
+                    <Button onClick={handleDeleteClose}>Cancel</Button>
                   </DialogActions>
                 </Dialog>
               </StyledTableRow>

@@ -1,17 +1,17 @@
 import "./App.css";
-import QueryForm from "./QueryForm";
-import AdminQueries from "./AdminQueries";
-import UserQueries from "./UserQueries";
+import QueryForm from "./components/QueryForm";
+import AdminQueries from "./components/AdminQueries";
+import UserQueries from "./components/UserQueries";
 import ButtonAppBar from "./Navibar";
 import { Routes, Route } from "react-router-dom";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import Home from "./Home";
+import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
+import Home from "./components/Home";
 import { createContext } from "react";
 import { useState } from "react";
-import AdminPermissions from "./AdminPermissions";
 import Pricing from "./Pricing";
 import Payment from "./Payment";
+import NotFound from "./NotFound";
 
 export const serverUrl = "https://issuesbackend.vercel.app";
 // https://issuesbackend.vercel.app
@@ -36,10 +36,7 @@ function App() {
               <Route path="/queryform" element={<QueryForm />} />
               {admin === "true" ? (
                 <Route path="/admin" element={<AdminQueries />} />
-              ) : null}
-              {admin === "true" ? (
-                <Route path="/permissions" element={<AdminPermissions />} />
-              ) : null}
+              ) : null}              
               <Route path="/user" element={<UserQueries />} />
             </>
           ) : null}
@@ -51,6 +48,7 @@ function App() {
               <Route path="/payment/:id" element={<Payment />} />
             </>
           ) : null}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </MainContext.Provider>
     </div>

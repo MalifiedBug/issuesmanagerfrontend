@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, useField, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { serverUrl } from "./App";
+import { serverUrl } from "../App";
 import { useEffect } from "react";
 
 const MyTextInput = ({ label, ...props }) => {
@@ -115,15 +115,16 @@ export default function QueryForm() {
 
   return (
     <div className="flex flex-col h-full">
-      <h1 className="text-3xl m-2">Submit Issue!</h1>
+      <h1 className="text-3xl m-2 font-bold">Submit Issue!</h1>
       {admin ? (
         <div>
-          <label className="font-semibold" for="users">
+          <h1 className="">Welcome Admin!</h1>
+          <label className="font-semibold text-xl" for="users">
             Submit Query on behalf of:
           </label>
           <select
             value={user}
-            className="rounded-lg p-1 m-1"
+            className="rounded-lg p-1 m-1 text-xl"
             id="users"
             onChange={(e) => {
               setUser(e.target.value);
@@ -178,7 +179,7 @@ export default function QueryForm() {
           <Form className="flex flex-col m-2 gap-2 border-4 border-black rounded-lg p-2 bg-slate-200 self-center lg:w-1/4">
             
             <MyTextInput1
-              className="border-2 rounded-lg p-1"
+              className="border-2 rounded-lg p-1 text-xl"
               label="Name"
               name="name"
               type="text"
@@ -188,7 +189,7 @@ export default function QueryForm() {
             <hr className="border-2 border-black m-4" />
 
             <MySelect
-              className="rounded-lg p-1 m-1"
+              className="rounded-lg p-1 m-1 text-xl"
               label="Issue Type: "
               name="issueType"
             >
@@ -204,7 +205,7 @@ export default function QueryForm() {
             </MySelect>
 
             <MyTextInput
-              className="border-2 rounded-lg p-1"
+              className="border-2 rounded-lg p-1 text-xl"
               label="Issue Title"
               name="issueTitle"
               type="text"
@@ -212,7 +213,7 @@ export default function QueryForm() {
             />
 
             <MyTextArea
-              className="border-2 rounded-lg p-1"
+              className="border-2 rounded-lg p-1 text-xl"
               name="issueDescription"
               type="text"
               placeholder="Description"
