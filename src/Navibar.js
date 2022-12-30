@@ -83,6 +83,14 @@ export default function ButtonAppBar() {
             <div>
               <Button
                 onClick={() => {               
+                  navigate("/pricing");
+                }}
+                color="inherit"
+              >
+                Pricing
+              </Button>
+              <Button
+                onClick={() => {               
                   navigate("/signin");
                 }}
                 color="inherit"

@@ -10,6 +10,8 @@ import Home from "./Home";
 import { createContext } from "react";
 import { useState } from "react";
 import AdminPermissions from "./AdminPermissions";
+import Pricing from "./Pricing";
+import Payment from "./Payment";
 
 export const serverUrl = "https://issuesbackend.vercel.app";
 // https://issuesbackend.vercel.app
@@ -45,6 +47,8 @@ function App() {
             <>
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/payment/:id" element={<Payment />} />
             </>
           ) : null}
         </Routes>

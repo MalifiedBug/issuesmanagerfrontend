@@ -91,14 +91,19 @@ export default function QueryForm() {
   const [uniqueUsers, setUniqueUsers] = useState([]);
   const [newUser, setNewUser] = useState("");
 
+
+
   async function handleSubmit(values) {
+    console.log(values)
     await axios
       .post(`${serverUrl}/issue`, values)
       .then((response) => alert("Issue submitted successfully"))
       .catch((error) => {
         alert(error);
       });
+      
   }
+
   useEffect(() => {
     (async () => {
       await axios.get(`${serverUrl}/uniqueusers`).then((response) => {
@@ -134,7 +139,7 @@ export default function QueryForm() {
       ) : null}
       <Formik
         initialValues={{
-          name: {user},
+          name:user,   
 
           issueType: "", // added for our select
 
@@ -143,7 +148,7 @@ export default function QueryForm() {
           issueDescription: "",
         }}
         validationSchema={Yup.object({
-          name: Yup.string().oneOf([user]).required("Required"),
+          name: Yup.string().required("Required"),
 
           issueType: Yup.string()
 
@@ -160,11 +165,13 @@ export default function QueryForm() {
           issueDescription: Yup.string().required("Required"),
         })}
         onSubmit={(values, { setSubmitting, resetForm }) => {
+          console.log(JSON.stringify({...values,name:user}));
+          console.log(user);
           setTimeout(() => {
             setSubmitting(false);
-            alert(JSON.stringify(values));
           }, 400);
-          handleSubmit(values).then(resetForm());
+          // method used in handle submit is used to update the values - Arun Kumar sir.
+          handleSubmit({...values,name:user}).then(resetForm());          
         }}
       >
         

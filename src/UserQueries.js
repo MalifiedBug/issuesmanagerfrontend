@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -100,6 +101,8 @@ export default function UserQueries() {
   const [updateResponse, setUpdateResponse] = useState([]);
   const [user, setUser] = useState("");
   const [uniqueUsers,setUniqueUsers] = useState([])
+  const [deleteOpen,setDeleteOpen] = useState(false);
+  const [deleteResponse,setDeleteResponse] = useState([])
 
   var name = user;
 
@@ -118,6 +121,19 @@ export default function UserQueries() {
   const handleEditClose = () => {
     setEditOpen(false);
   };
+
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true);
+  };
+
+  const handleDeleteClose = () => {
+    setDeleteOpen(false);
+  };
+
+ async function handleDelete(id){
+   await axios.delete(`${serverUrl}/deleteissue/${id}`).then(response =>{setDeleteResponse(response);alert("issue deleted")})
+    setDeleteOpen(false)
+  }
 
   async function handleEditSubmit(id, values) {
     const submit = await axios
@@ -142,7 +158,7 @@ export default function UserQueries() {
       const users = await axios.get(`${serverUrl}/uniqueusers`).then((response)=>{setUniqueUsers(response.data.users);console.log(response.data)})
       console.log(users)
     })();
-  }, [updateResponse, name]);
+  }, [updateResponse, name, deleteResponse]);
 
   function createData(
     id,
@@ -225,9 +241,14 @@ export default function UserQueries() {
                 <StyledTableCell align="left">{row.date}</StyledTableCell>
                 <StyledTableCell align="left" className="flex flex-row">
                   {row.status !== "resolved" ? (
-                    <IconButton onClick={handleEditOpen}>
-                      <DriveFileRenameOutlineIcon />
+                    <div>
+                      <IconButton onClick={handleEditOpen}>
+                        <DriveFileRenameOutlineIcon />
+                      </IconButton>
+                      <IconButton color="error" onClick={handleDeleteOpen}>
+                      <DeleteIcon />
                     </IconButton>
+                    </div>
                   ) : (
                     "Resolved"
                   )}
@@ -283,6 +304,15 @@ export default function UserQueries() {
                       </Form>
                     </Formik>
                   </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleEditClose}>Cancel</Button>
+                  </DialogActions>
+                </Dialog>
+                <Dialog open={deleteOpen} onClose={handleDeleteClose}>
+                  <DialogTitle>Delete</DialogTitle>
+                  <DialogContent>
+                    Are you sure? <button onClick={()=>handleDelete(row.id)} className="border border-red-500 rounded-lg p-1 hover:bg-red-500">Delete</button>
+                  </DialogContent> 
                   <DialogActions>
                     <Button onClick={handleEditClose}>Cancel</Button>
                   </DialogActions>
