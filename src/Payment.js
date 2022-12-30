@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { serverUrl } from "./App";
 
 export default function Payment(){
     let id = useParams();
@@ -26,7 +27,7 @@ export default function Payment(){
       }
     
       // creating a new order
-      const result = await axios.post("http://localhost:4000/orders");
+      const result = await axios.post(`${serverUrl}/orders`);
           
       if (!result) {
           alert("Server error. Are you online?");
@@ -73,7 +74,7 @@ export default function Payment(){
       paymentObject.open();
     }
     let i = 0;
-    
+
     return(
         <div>
             <button onClick={()=>displayRazorpay()} className="border-4 border-sky-300 p-2 m-2">Pay</button>
