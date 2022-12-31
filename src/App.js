@@ -9,10 +9,10 @@ import SignUp from "./components/SignUp";
 import Home from "./components/Home";
 import { createContext } from "react";
 import { useState } from "react";
-import Pricing from "./Pricing";
+import Pricing from "./components/Pricing";
 import Payment from "./Payment";
 import NotFound from "./NotFound";
-import Profile from "./Profile";
+import Profile from "./components/Profile";
 
 export const serverUrl = "https://issuesbackend.vercel.app";
 // https://issuesbackend.vercel.app
