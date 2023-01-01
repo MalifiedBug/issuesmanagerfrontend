@@ -65,13 +65,13 @@ export default function AdminQueries() {
   async function One(name) {
     await axios
       .put(`${serverUrl}/addadmin/${name}`)
-      .then((response) => alert(response));
+      .then((response) => alert("admin added"));
   }
 
   async function Two(name) {
     await axios
       .put(`${serverUrl}/deladmin/${name}`)
-      .then((response) => alert(response));
+      .then((response) => alert("admin deleted"));
   }
 
   console.log(uniqueUsers);
@@ -144,7 +144,6 @@ export default function AdminQueries() {
       .then((response) => setDeleteQResponse(response));
     console.log(queriesDelete);
   }
-
   console.log(data);
 
   const [filterName, setFilterName] = useState("");
@@ -167,7 +166,7 @@ export default function AdminQueries() {
                 }}
                 id="assign"
                 className="p-1 rounded-lg"
-              >
+              >                
                 {uniqueUsers.map((user, index) => (
                   <option key={index} value={user}>
                     {user}
@@ -217,7 +216,7 @@ export default function AdminQueries() {
                 className="rounded-lg bg-gray-400 p-2 h-11 self-center"
               >
                 <option value="all" selected>
-                  All
+                  Select User-all
                 </option>
                 {uniqueUsers.map((user, index) => (
                   <option key={index} value={user}>
@@ -248,7 +247,7 @@ export default function AdminQueries() {
                 }}
                 className="rounded-lg bg-gray-400 p-2 h-11 self-center"
               >
-                <option value="all">All</option>
+                <option value="all">Status-all</option>
                 <option value="pending">Pending</option>
                 <option value="resolved">Resolved</option>
               </select>
