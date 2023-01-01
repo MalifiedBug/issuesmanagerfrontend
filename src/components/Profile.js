@@ -1,5 +1,4 @@
-import { useState,useEffect } from "react";
-
+ 
 export default function Profile() {
   const user  = window.localStorage.getItem('user')
   const admin = window.localStorage.getItem('admin')==="true"

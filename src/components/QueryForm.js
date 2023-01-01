@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Formik, Form, useField, Field } from "formik";
+import { Formik, Form, useField} from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { serverUrl } from "../App";
@@ -31,8 +31,7 @@ const MyTextInput1 = ({ label, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
   // which we can spread on <input>. We can use field meta to show an error
   // message if the field is invalid and it has been touched (i.e. visited)
-  const [field, meta, helpers] = useField(props);
-  const { setValue } = helpers;
+  const [field, meta] = useField(props);
 
   return (
     <>
@@ -89,7 +88,6 @@ export default function QueryForm() {
   const [user, setUser] = useState(window.localStorage.getItem("user"));
   const admin = window.localStorage.getItem("admin") === "true";
   const [uniqueUsers, setUniqueUsers] = useState([]);
-  const [newUser, setNewUser] = useState("");
 
 
 

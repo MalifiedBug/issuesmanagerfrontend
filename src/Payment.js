@@ -2,82 +2,99 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { serverUrl } from "./App";
 
-export default function Payment(){
-    let id = useParams();
-    function loadScript(src) {
-        return new Promise((resolve) => {
-            const script = document.createElement("script");
-            script.src = src;
-            script.onload = () => {
-                resolve(true);
-            };
-            script.onerror = () => {
-                resolve(false);
-            };
-            document.body.appendChild(script);
-        });
-    }
-    async function displayRazorpay() {
-      const res = await loadScript(
-          "https://checkout.razorpay.com/v1/checkout.js"
-      );   
-      if (!res) {
-          alert("Razorpay SDK failed to load. Are you online?");
-          return;
-      }
-    
-      // creating a new order
-      const result = await axios.post(`${serverUrl}/orders`);
-          
-      if (!result) {
-          alert("Server error. Are you online?");
-          return;
-      }
-    
-      // Getting the order details back
-      const { amount, id: order_id, currency } = result.data;
-    
-      const options = {
-          key: "rzp_test_qtaW6Uk2obHljz", // Enter the Key ID generated from the Dashboard
-          amount: amount.toString(),
-          currency: currency,
-          name: "HelpDesk.in",
-          description: "Test Transaction",
-          image: "data:image/jpeg;base64,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",
-          order_id: order_id,
-          handler: async function (response) {
-              const data = {
-                  orderCreationId: order_id,
-                  razorpayPaymentId: response.razorpay_payment_id,
-                  razorpayOrderId: response.razorpay_order_id,
-                  razorpaySignature: response.razorpay_signature,
-              };
-    
-              const result = await axios.post("http://localhost:5000/payment/success", data);
-    
-              alert(result.data.msg);
-          },
-          prefill: {
-              name: "Soumya Dey",
-              email: "SoumyaDey@example.com",
-              contact: "9999999999",
-          },
-          notes: {
-              address: "Soumya Dey Corporate Office",
-          },
-          theme: {
-              color: "#61dafb",
-          },
+export default function Payment() {
+  let { id } = useParams();
+  function loadScript(src) {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
       };
-    
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  }
+  async function displayRazorpay() {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
     }
-    let i = 0;
 
-    return(
-        <div>
-            <button onClick={()=>displayRazorpay()} className="border-4 border-sky-300 p-2 m-2">Pay</button>
+    // creating a new order
+    const result = await axios.post(`${serverUrl}/orders/${id}`);
+
+    if (!result) {
+      alert("Server error. Are you online?");
+      return;
+    }
+
+    // Getting the order details back
+    const { amount, id: order_id, currency } = result.data;
+
+    const options = {
+      key: "rzp_test_qtaW6Uk2obHljz", // Enter the Key ID generated from the Dashboard
+      amount: amount.toString(),
+      currency: currency,
+      name: "HelpDesk.in",
+      description: "Test Transaction",
+      image:
+        "data:image/png;base64,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",
+      order_id: order_id,
+      handler: async function (response) {        
+        const data = {
+          orderCreationId: order_id,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayOrderId: response.razorpay_order_id,
+          razorpaySignature: response.razorpay_signature,
+        };
+        await axios.post(
+          `${serverUrl}/success`,
+          data
+        ).then(response => alert(JSON.stringify(response)))
+      },
+      prefill: {
+        name: "HelpDesk",
+        email: "helpdesk@gmail.com",
+        contact: "9999999999",
+      },
+      notes: {
+        address: "HelpDesk.in Office",
+      },
+      theme: {
+        color: "#61dafb",
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  }
+
+  return (
+    <div>
+      {id === "1" ? (
+        <div className="bg-slate-200 m-2 p-2 rounded-lg border-2 border-black">
+            <h1 className="text-xl font-semibold">Selected Plan of ₹ 1,200/year</h1>
+            <p><span className="font-semibold text-lg">Benefits:</span> Simplified collaboration and process automation functionalities for fast-growing teams.</p>
         </div>
-    )
+      ) : (
+        <div className="bg-slate-200 m-2 p-2 rounded-lg border-2 border-black">
+            <h1 className="text-xl font-semibold">Selected plan of ₹ 2,200/year</h1>
+            <p><span className="font-semibold text-lg">Benefits:</span> Advanced AI and customization capabilities to enable enterprise-grade support.</p>
+        </div>
+      )}
+
+      <button
+        onClick={() => displayRazorpay()}
+        className="border-4 border-sky-300 bg-slate-300 hover:text-white rounded-lg hover:bg-sky-400 p-2 m-2"
+      >
+        Pay
+      </button>
+    </div>
+  );
 }

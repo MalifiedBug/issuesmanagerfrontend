@@ -28,7 +28,7 @@ export default function Pricing() {
                   <button
                     onClick={()=>navigate("/signup")}
                     type="button"
-                    className="border border-sky-600 inline-block w-full rounded bg-transparent px-6 py-2.5 text-xs font-medium uppercase leading-tight text-blue-600 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-blue-700 focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-gray-200"
+                    className="border border-sky-600 inline-block w-full rounded bg-transparent px-6 py-2.5 text-xs font-medium uppercase leading-tight text-blue-600 transition duration-150 ease-in-out hover:bg-sky-500 hover:text-white focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-sky-600"
                     // style="background-color: hsl(0, 0%, 95%)"
                     data-mdb-ripple="true"
                     data-ripple-color="primary"
@@ -68,13 +68,13 @@ export default function Pricing() {
                     <strong>Basic</strong>
                   </p>
                   <h3 className="mb-6 text-2xl">
-                    <strong>$ 12</strong>
+                    <strong>₹ 1,200</strong>
                     <small className="text-sm text-gray-500">/year</small>
                   </h3>
 
                   <button
                     type="button"
-                    className="border border-sky-600 inline-block w-full rounded bg-transparent px-6 py-2.5 text-xs font-medium uppercase leading-tight text-blue-600 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-blue-700 focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-gray-200"
+                    className="border border-sky-600 inline-block w-full rounded bg-transparent px-6 py-2.5 text-xs font-medium uppercase leading-tight text-blue-600 transition duration-150 ease-in-out hover:bg-sky-500 hover:text-white focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-sky-600"
                     // style="background-color: hsl(0, 0%, 95%)"
                     data-mdb-ripple="true"
                     data-ripple-color="primary"
@@ -115,13 +115,13 @@ export default function Pricing() {
                     <strong>Advanced</strong>
                   </p>
                   <h3 className="mb-6 text-2xl">
-                    <strong>$ 29</strong>
+                    <strong>₹ 2,200</strong>
                     <small className="text-sm text-gray-500">/year</small>
                   </h3>
 
                   <button
                     type="button"
-                    className=" inline-block w-full rounded bg-blue-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+                    className="border border-sky-600 inline-block w-full rounded bg-transparent px-6 py-2.5 text-xs font-medium uppercase leading-tight text-blue-600 transition duration-150 ease-in-out hover:bg-sky-500 hover:text-white focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-sky-600"
                     data-mdb-ripple="true"
                     data-ripple-color="light"
                     onClick={()=>navigate("/payment/2")}
