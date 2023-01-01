@@ -14,7 +14,7 @@ import Payment from "./Payment";
 import NotFound from "./NotFound";
 import Profile from "./components/Profile";
 
-export const serverUrl = "http://localhost:4000";
+export const serverUrl = "https://issuesbackend.vercel.app";
 // https://issuesbackend.vercel.app
 export const MainContext = createContext();
 
